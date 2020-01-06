@@ -5,6 +5,8 @@ namespace Gamesmkt\Fishpond;
 use DateTime;
 use Gamesmkt\Fishpond\AdapterInterface;
 use Gamesmkt\Fishpond\Adapter\AutoCreatePlayer;
+use Gamesmkt\Fishpond\Adapter\CanFetchRecords;
+use Gamesmkt\Fishpond\Adapter\CanFetchRecordsByContext;
 use Gamesmkt\Fishpond\ConfigAwareTrait;
 use Gamesmkt\Fishpond\Exception\NotSupportingException;
 use Gamesmkt\Fishpond\FishpondInterface;
@@ -166,10 +168,20 @@ class Fishpond implements FishpondInterface
     {
         $config = $this->prepareConfig($config);
 
+        if (!$this->getAdapter() instanceof CanFetchRecords) {
+            throw new NotSupportingException(
+                get_class($this->getAdapter()) . ' does not support fetch record.'
+            );
+        }
+
         $this->assertDonate();
 
         if (!$array = $this->getAdapter()->fetchRecords($type, $start, $end, $config)) {
             return false;
+        }
+
+        if ((int) $type === Type::TYPE_BET) {
+            $array = $this->normalizeBetRecord($array, $config);
         }
 
         return $array;
@@ -182,10 +194,20 @@ class Fishpond implements FishpondInterface
     {
         $config = $this->prepareConfig($config);
 
+        if (!$this->getAdapter() instanceof CanFetchRecordsByContext) {
+            throw new NotSupportingException(
+                get_class($this->getAdapter()) . ' does not support fetch record by context.'
+            );
+        }
+
         $this->assertDonate();
 
         if (!$array = $this->getAdapter()->fetchRecordsByContext($type, $context, $config)) {
             return false;
+        }
+
+        if ((int) $type === Type::TYPE_BET) {
+            $array = $this->normalizeBetRecord($array, $config);
         }
 
         return $array;
@@ -198,10 +220,20 @@ class Fishpond implements FishpondInterface
     {
         $config = $this->prepareConfig($config);
 
+        if (!$this->getAdapter() instanceof CanFetchRecordsByDirectWithMark) {
+            throw new NotSupportingException(
+                get_class($this->getAdapter()) . ' does not support fetch record by direct with mark.'
+            );
+        }
+
         $this->assertDonate();
 
         if (!$array = $this->getAdapter()->fetchRecordsByDirectWithMark($type, $listCompleteRecord, $config)) {
             return false;
+        }
+
+        if ((int) $type === Type::TYPE_BET) {
+            $array = $this->normalizeBetRecord($array, $config);
         }
 
         return $array;
@@ -237,5 +269,30 @@ class Fishpond implements FishpondInterface
                 get_class($this->getAdapter()) . ' does not support donate.'
             );
         }
+    }
+
+    /**
+     * Assert support normalize bet record and run it.
+     *
+     * @param \Gamesmkt\Fishpond\Record[] $records
+     * @param \Gamesmkt\Fishpond\Config $config
+     *
+     * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
+     *
+     * @return array
+     */
+    public function normalizeBetRecord(array $records, Config $config)
+    {
+        if (!$this->getAdapter() instanceof CanNormalizeBetRecor) {
+            return $records;
+        }
+
+        if (!$records = $this->getAdapter()->normalizeBetRecord($records, $config)) {
+            throw new NormalizeBetRecordException(
+                get_class($this->getAdapter()) . ' could not normalize. Records:' . $records
+            );
+        }
+
+        return $records;
     }
 }

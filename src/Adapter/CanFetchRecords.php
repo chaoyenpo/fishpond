@@ -9,7 +9,7 @@ use Gamesmkt\Fishpond\TypeInterface;
 /**
  * 實現這個介面的 Adapter 讓 Fishpond 知道支援 fetchRecords 功能。
  */
-interface FetchableRecord
+interface CanFetchRecords
 {
     /**
      * 透過時間抓取紀錄。

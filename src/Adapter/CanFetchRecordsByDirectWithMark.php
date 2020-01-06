@@ -8,7 +8,7 @@ use Gamesmkt\Fishpond\TypeInterface;
 /**
  * 實現這個介面的 Adapter 讓 Fishpond 知道支援 fetchRecordsByDirectWithMark 功能。
  */
-interface FetchableRecordsByDirectWithMark
+interface CanFetchRecordsByDirectWithMark
 {
     /**
      * 直接抓取未被標記的紀錄，並藉由傳遞清單來標記已抓取的紀錄。

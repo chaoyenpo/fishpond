@@ -8,7 +8,7 @@ use Gamesmkt\Fishpond\TypeInterface;
 /**
  * 實現這個介面的 Adapter 讓 Fishpond 知道支援 fetchRecordsByContext 功能。
  */
-interface FetchableRecordsByContext
+interface CanFetchRecordsByContext
 {
     /**
      * 透過上下文抓取紀錄。

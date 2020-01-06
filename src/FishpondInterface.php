@@ -101,6 +101,8 @@ interface FishpondInterface
      * @param \DateTime $end
      * @param array $config An optional configuration array
      *
+     * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
+     *
      * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
      */
     public function fetchRecords(TypeInterface $type, DateTime $start, DateTime $end, array $config = []);
@@ -112,6 +114,8 @@ interface FishpondInterface
      * @param string $context
      * @param array $config An optional configuration array
      *
+     * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
+     *
      * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
      */
     public function fetchRecordsByContext(TypeInterface $type, string $context, array $config = []);
@@ -122,6 +126,8 @@ interface FishpondInterface
      * @param \Gamesmkt\Fishpond\TypeInterface $type
      * @param array $listCompleteRecord An optional array
      * @param array $config An optional configuration array
+     *
+     * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
      *
      * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
      */
