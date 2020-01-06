@@ -3,6 +3,7 @@
 namespace Gamesmkt\Fishpond;
 
 use Gamesmkt\Fishpond\Config;
+use LogicException;
 
 /**
  * @internal
@@ -21,7 +22,7 @@ trait ConfigAwareTrait
      */
     protected function setConfig($config)
     {
-        $this->config = $config ? Util::ensureConfig($config) : new Config;
+        $this->config = $config ? $this->ensureConfig($config) : new Config;
     }
 
     /**
@@ -48,4 +49,31 @@ trait ConfigAwareTrait
 
         return $config;
     }
+
+    /**
+     * Ensure a Config instance.
+     *
+     * @param Config|array|null $config
+     *
+     * @return Config config instance
+     *
+     * @throws LogicException
+     */
+    public static function ensureConfig($config)
+    {
+        if ($config === null) {
+            return new Config();
+        }
+
+        if ($config instanceof Config) {
+            return $config;
+        }
+
+        if (is_array($config)) {
+            return new Config($config);
+        }
+
+        throw new LogicException('A config should either be an array or a Flysystem\Config object.');
+    }
+
 }

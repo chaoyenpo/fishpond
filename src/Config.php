@@ -2,6 +2,8 @@
 
 namespace Gamesmkt\Fishpond;
 
+use Gamesmkt\Fishpond\Config;
+
 class Config
 {
     /**
@@ -10,7 +12,7 @@ class Config
     protected $settings = [];
 
     /**
-     * @var Config|null
+     * @var \Gamesmkt\Fishpond\Config|null
      */
     protected $fallback;
 
@@ -34,7 +36,7 @@ class Config
      */
     public function get($key, $default = null)
     {
-        if ( ! array_key_exists($key, $this->settings)) {
+        if (!array_key_exists($key, $this->settings)) {
             return $this->getDefault($key, $default);
         }
 
@@ -55,8 +57,8 @@ class Config
         }
 
         return $this->fallback instanceof Config
-            ? $this->fallback->has($key)
-            : false;
+        ? $this->fallback->has($key)
+        : false;
     }
 
     /**
@@ -69,7 +71,7 @@ class Config
      */
     protected function getDefault($key, $default)
     {
-        if ( ! $this->fallback) {
+        if (!$this->fallback) {
             return $default;
         }
 
@@ -94,7 +96,7 @@ class Config
     /**
      * Set the fallback.
      *
-     * @param Config $fallback
+     * @param \Gamesmkt\Fishpond\Config $fallback
      *
      * @return $this
      */

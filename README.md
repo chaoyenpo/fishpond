@@ -21,3 +21,11 @@ Adapter 可以被當作一個插頭 - 彌補原先不相容的 API 之間的差�
 Adapter 需要實現 `Gamesmkt\Fishpond\AdapterInterface`。這個 interface 指示需要實現的 all methods。Adapter 的 interface 類似於 `Gamesmkt\Fishpond\FishpondInterface`，method names 相同，但 response 通常不同。
 
 Adapter 的 response 通常是包含 requested value 的 array。因為 call 遊戲廠商返回的值通常比 client 最初 requested 的要多。
+
+#### Response values
+
+|key   |description |type   |
+|---|---|---|
+|   |   |   |
+|   |   |   |
+|   |   |   |

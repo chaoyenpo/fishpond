@@ -2,10 +2,17 @@
 
 namespace Gamesmkt\Fishpond;
 
+use DateTime;
 use Gamesmkt\Fishpond\AdapterInterface;
+use Gamesmkt\Fishpond\Adapter\AutoCreatePlayer;
 use Gamesmkt\Fishpond\ConfigAwareTrait;
+use Gamesmkt\Fishpond\Exception\NotSupportingException;
 use Gamesmkt\Fishpond\FishpondInterface;
-use Gamesmkt\Fishpond\PlayerInterface;
+use Gamesmkt\Fishpond\Game;
+use Gamesmkt\Fishpond\Player;
+use Gamesmkt\Fishpond\Record;
+use Gamesmkt\Fishpond\Transaction;
+use Gamesmkt\Fishpond\Type;
 
 class Fishpond implements FishpondInterface
 {
@@ -41,19 +48,29 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function prepareCreatePlayer(PlayerInterface $player, array $config = [])
+    public function prepareCreatePlayer(Player $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
-        return (bool) $object = $this->getAdapter()->prepareCreatePlayer($player, $config);
+        if (!$object = $this->getAdapter()->prepareCreatePlayer($player, $config)) {
+            return false;
+        }
+
+        $player->name = $object['player']->name;
+
+        return $player;
     }
 
     /**
      * @inheritdoc
      */
-    public function createPlayer(PlayerInterface $player, array $config = [])
+    public function createPlayer(Player $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
+
+        if ($this->getAdapter() instanceof AutoCreatePlayer) {
+            return (bool) $object = $this->getAdapter()->getBalance($player, $config);
+        }
 
         return (bool) $object = $this->getAdapter()->createPlayer($player, $config);
     }
@@ -61,7 +78,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getLoginUrl(PlayerInterface $player, GameInterface $game, array $config = [])
+    public function getLoginUrl(Player $player, Game $game, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -75,21 +92,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getDemoUrl(GameInterface $game, array $config = [])
-    {
-        $config = $this->prepareConfig($config);
-
-        if (!$object = $this->getAdapter()->getDemoUrl($game, $config)) {
-            return false;
-        }
-
-        return $object['loginUrl'];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function logout(PlayerInterface $player, GameInterface $game = null, array $config = [])
+    public function logout(Player $player, Game $game = null, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -103,7 +106,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getBalance(PlayerInterface $player, array $config = [])
+    public function getBalance(Player $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -117,7 +120,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function prepareTransfer(TransactionInterface $transaction, array $config = [])
+    public function prepareTransfer(Transaction $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -131,7 +134,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function transfer(TransactionInterface $transaction, array $config = [])
+    public function transfer(Transaction $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -145,11 +148,11 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function queryTransfer(TransactionInterface $transaction, array $config = [])
+    public function getTransferRecord(Transaction $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
-        if (!$object = $this->getAdapter()->queryTransfer($transaction, $config)) {
+        if (!$object = $this->getAdapter()->getTransferRecord($transaction, $config)) {
             return false;
         }
 
@@ -159,9 +162,11 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function fetchRecords(TypeInterface $type, DateTime $start, DateTime $end, array $config = [])
+    public function fetchRecords(Type $type, DateTime $start, DateTime $end, array $config = [])
     {
         $config = $this->prepareConfig($config);
+
+        $this->assertDonate();
 
         if (!$array = $this->getAdapter()->fetchRecords($type, $start, $end, $config)) {
             return false;
@@ -177,6 +182,8 @@ class Fishpond implements FishpondInterface
     {
         $config = $this->prepareConfig($config);
 
+        $this->assertDonate();
+
         if (!$array = $this->getAdapter()->fetchRecordsByContext($type, $context, $config)) {
             return false;
         }
@@ -191,6 +198,8 @@ class Fishpond implements FishpondInterface
     {
         $config = $this->prepareConfig($config);
 
+        $this->assertDonate();
+
         if (!$array = $this->getAdapter()->fetchRecordsByDirectWithMark($type, $listCompleteRecord, $config)) {
             return false;
         }
@@ -201,14 +210,32 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getRecordDetailUrl(RecordInterface $record, GameInterface $game, array $config = [])
+    public function getGaemResultlUrl(Record $record, Game $game, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
-        if (!$array = $this->getAdapter()->getRecordDetailUrl($record, $game, $config)) {
+        if (!$array = $this->getAdapter()->getGaemResultlUrl($record, $game, $config)) {
             return false;
         }
 
         return $array;
+    }
+
+    /**
+     * Assert support donate.
+     *
+     * @param \Gamesmkt\Fishpond\TypeInterface $type
+     *
+     * @throws \Gamesmkt\Fishpond\Exception\NotSupportingException
+     *
+     * @return void
+     */
+    public function assertDonate(Type $type)
+    {
+        if ((int) $type === Type::TYPE_DONATE && !$this->getAdapter() instanceof Donatable) {
+            throw new NotSupportingException(
+                get_class($this->getAdapter()) . ' does not support donate.'
+            );
+        }
     }
 }

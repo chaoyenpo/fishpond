@@ -6,7 +6,7 @@ use Gamesmkt\Fishpond\PlayerInterface;
 
 class Player implements PlayerInterface
 {
-    /** $var string */
+    /** @var string */
     private $name;
 
     /**
@@ -18,6 +18,11 @@ class Player implements PlayerInterface
     }
 
     public function getName()
+    {
+        return $this->name;
+    }
+
+    public function __toString()
     {
         return $this->name;
     }

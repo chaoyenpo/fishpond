@@ -6,11 +6,7 @@ use InvalidArgumentException;
 
 class Type implements TypeInterface
 {
-    const TYPE_BET = 1;
-
-    const TYPE_DONATE = 2;
-
-    /** $var int */
+    /** @var int */
     private $type;
 
     /**
@@ -40,8 +36,15 @@ class Type implements TypeInterface
                 break;
             case self::TYPE_DONATE:
                 break;
+            case self::TYPE_TRANSFER:
+                break;
             default:
                 throw new InvalidArgumentException("Not support [$type] type.");
         }
+    }
+
+    public function __toString()
+    {
+        return $this->type;
     }
 }

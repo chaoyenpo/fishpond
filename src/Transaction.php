@@ -2,48 +2,37 @@
 
 namespace Gamesmkt\Fishpond;
 
+use Gamesmkt\Fishpond\PlayerInterface;
 use Gamesmkt\Fishpond\TransactionInterface;
 use InvalidArgumentException;
 
 class Transaction implements TransactionInterface
 {
-    const METHOD_DEPOSIT = 1;
-
-    const METHOD_WITHDRAW = 2;
-
-    const STATUS_PENDDING = 1;
-
-    const STATUS_COMPLETE = 2;
-
-    const STATUS_FAILED = 3;
-
-    const STATUS_ERROR = 4;
-
-    /** $var int */
+    /** @var int */
     private $method;
 
-    /** $var string */
-    private $name;
+    /** @var \Gamesmkt\Fishpond\PlayerInterface */
+    private $user;
 
-    /** $var string */
+    /** @var string */
     private $id;
 
-    /** $var string */
+    /** @var string */
     private $amount;
 
-    /** $var int */
+    /** @var int */
     private $status;
 
     /**
      * @param int $method Transaction method
-     * @param string $name The user name
+     * @param \Gamesmkt\Fishpond\PlayerInterface $user The user
      * @param string $id Id
      * @param string $amount Amount
      * @param string $status Status
      */
     public function __construct(
         int $method,
-        string $name,
+        PlayerInterface $user,
         string $id,
         string $amount,
         int $status
@@ -52,7 +41,7 @@ class Transaction implements TransactionInterface
         $this->assertStatus($status);
 
         $this->method = $method;
-        $this->name = $name;
+        $this->user = $user;
         $this->id = $id;
         $this->amount = $amount;
         $this->status = $status;
@@ -63,9 +52,9 @@ class Transaction implements TransactionInterface
         return $this->method;
     }
 
-    public function getName()
+    public function getUser()
     {
-        return $this->name;
+        return $this->user;
     }
 
     public function getId()
