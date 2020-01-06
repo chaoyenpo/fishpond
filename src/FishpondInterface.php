@@ -3,7 +3,6 @@
 namespace Gamesmkt\Fishpond;
 
 use DateTime;
-use Gamesmkt\Fishpond\Exception\NotSupportingException;
 use Gamesmkt\Fishpond\GameInterface;
 use Gamesmkt\Fishpond\PlayerInterface;
 use Gamesmkt\Fishpond\RecordInterface;
@@ -101,8 +100,6 @@ interface FishpondInterface
      * @param \DateTime $start
      * @param \DateTime $end
      * @param array $config An optional configuration array
-     *
-     * @throws \Gamesmkt\Fishpond\Exception\NotSupportingException
      *
      * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
      */
