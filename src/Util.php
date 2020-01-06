@@ -10,6 +10,8 @@ class Util
     /**
      * Generate string.
      *
+     * TODO: 支援 32 位以上的字串
+     *
      * @param int $length
      *
      * @throws \InvalidArgumentException

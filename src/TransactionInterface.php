@@ -18,7 +18,7 @@ interface TransactionInterface
 
     public function getMethod();
 
-    public function getPlayer();
+    public function getUser();
 
     public function getId();
 
