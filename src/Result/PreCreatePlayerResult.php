@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GameService\Results;
+namespace Gamesmkt\Fishpond\Result;
 
 class PreCreatePlayerResult extends Result
 {

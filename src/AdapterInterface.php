@@ -9,20 +9,20 @@ interface AdapterInterface
      *
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\Result|mixed
+     * @return \Gamesmkt\Fishpond\Result\Result|mixed
      */
     public function createPlayer($player, $config = null);
 
     /**
      * 取得登入網址
-     * 
+     *
      * @todo 不同裝置要產生不同的登入網址
-     * @todo 
+     * @todo
      *
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Playable|mixed $game
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\LoginResult|mixed
+     * @return \Gamesmkt\Fishpond\Result\LoginResult|mixed
      */
     public function login($player, $game, $config = null);
 
@@ -32,7 +32,7 @@ interface AdapterInterface
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Playable|mixed $game
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\Result|mixed
+     * @return \Gamesmkt\Fishpond\Result\Result|mixed
      */
     public function logout($player, $game, $config = null);
 
@@ -41,7 +41,7 @@ interface AdapterInterface
      *
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\BalanceResult|mixed
+     * @return \Gamesmkt\Fishpond\Result\BalanceResult|mixed
      */
     public function balance($player, $config = null);
 
@@ -51,7 +51,7 @@ interface AdapterInterface
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Transferable|mixed $transaction
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\TransferResult|mixed
+     * @return \Gamesmkt\Fishpond\Result\TransferResult|mixed
      */
     public function transfer($player, $transaction, $config = null);
 
@@ -61,7 +61,7 @@ interface AdapterInterface
      * @param \Gamesmkt\Fishpond\CanBePlayer|mixed $player
      * @param \Gamesmkt\Fishpond\Transferable|mixed $transaction
      * @param \Gamesmkt\Fishpond\Config|null $config
-     * @return \Gamesmkt\Fishpond\Results\TransferResult|mixed
+     * @return \Gamesmkt\Fishpond\Result\TransferResult|mixed
      */
     public function queryTransfer($player, $transaction, $config = null);
 }

@@ -2,7 +2,7 @@
 
 namespace Gamesmkt\Fishpond;
 
-interface CanBePlayer
+interface GameInterface
 {
     //
 }

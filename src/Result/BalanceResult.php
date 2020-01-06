@@ -1,6 +1,6 @@
 <?php
 
-namespace Gamesmkt\Fishpond\Results;
+namespace Gamesmkt\Fishpond\Result;
 
 class BalanceResult extends Result
 {

@@ -2,7 +2,7 @@
 
 namespace Gamesmkt\Fishpond;
 
-interface Transferable
+interface RecordInterface
 {
     //
 }

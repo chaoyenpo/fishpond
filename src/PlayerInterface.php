@@ -2,7 +2,7 @@
 
 namespace Gamesmkt\Fishpond;
 
-interface Playable
+interface PlayerInterface
 {
     /**
      * Get the name of the unique identifier for the player.
