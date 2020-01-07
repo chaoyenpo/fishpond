@@ -15,11 +15,11 @@ interface TransactionInterface
      */
     const STATUS_PENDING = 1;
 
-    const STATUS_COMPLETE = 2;
+    const STATUS_SUCCESS = 2;
 
     const STATUS_FAILED = 3;
 
-    const STATUS_ERROR = 4;
+    const STATUS_UNKNOWN = 4;
 
     public function getMethod();
 

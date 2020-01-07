@@ -105,11 +105,11 @@ class Transaction implements TransactionInterface
         switch ($status) {
             case self::STATUS_PENDING:
                 break;
-            case self::STATUS_COMPLETE:
+            case self::STATUS_SUCCESS:
                 break;
             case self::STATUS_FAILED:
                 break;
-            case self::STATUS_ERROR:
+            case self::STATUS_UNKNOWN:
                 break;
             default:
                 throw new InvalidArgumentException("Not support [$status] status.");
