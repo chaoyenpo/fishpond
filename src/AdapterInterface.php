@@ -86,6 +86,8 @@ interface AdapterInterface
      * @param \Gamesmkt\Fishpond\TransactionInterface $player
      * @param \Gamesmkt\Fishpond\Config $config
      *
+     * @throws \Gamesmkt\Fishpond\Exception\TransferException
+     *
      * @return array|false false on failure, meta data on success
      */
     public function transfer(TransactionInterface $transaction, Config $config);
@@ -95,6 +97,8 @@ interface AdapterInterface
      *
      * @param \Gamesmkt\Fishpond\TransactionInterface $player
      * @param \Gamesmkt\Fishpond\Config $config
+     *
+     * @throws \Gamesmkt\Fishpond\Exception\GetTransferException
      *
      * @return array|false false on failure, meta data on success
      */
