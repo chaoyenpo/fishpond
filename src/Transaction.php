@@ -103,7 +103,7 @@ class Transaction implements TransactionInterface
         }
 
         switch ($status) {
-            case self::STATUS_PENDDING:
+            case self::STATUS_PENDING:
                 break;
             case self::STATUS_COMPLETE:
                 break;

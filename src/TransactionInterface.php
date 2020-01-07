@@ -8,7 +8,12 @@ interface TransactionInterface
 
     const METHOD_WITHDRAW = 2;
 
-    const STATUS_PENDDING = 1;
+    /**
+     * 1. 認 `COMPLETE` 跟 `FAILD` 的狀態
+     * 2. 把網路異常當 `PENDING`
+     * 3. 其他不認得的狀態是 `ERROR` 狀態？
+     */
+    const STATUS_PENDING = 1;
 
     const STATUS_COMPLETE = 2;
 
