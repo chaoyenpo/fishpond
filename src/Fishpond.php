@@ -7,20 +7,25 @@ use Gamesmkt\Fishpond\AdapterInterface;
 use Gamesmkt\Fishpond\Adapter\AutoCreatePlayer;
 use Gamesmkt\Fishpond\Adapter\CanFetchRecords;
 use Gamesmkt\Fishpond\Adapter\CanFetchRecordsByContext;
+use Gamesmkt\Fishpond\Config;
 use Gamesmkt\Fishpond\ConfigAwareTrait;
+use Gamesmkt\Fishpond\Exception\NormalizeBetRecordException;
 use Gamesmkt\Fishpond\Exception\NotSupportingException;
 use Gamesmkt\Fishpond\FishpondInterface;
 use Gamesmkt\Fishpond\Game;
-use Gamesmkt\Fishpond\Player;
+use Gamesmkt\Fishpond\GameInterface;
+use Gamesmkt\Fishpond\PlayerInterface;
 use Gamesmkt\Fishpond\Record;
-use Gamesmkt\Fishpond\Transaction;
+use Gamesmkt\Fishpond\RecordInterface;
+use Gamesmkt\Fishpond\TransactionInterface;
 use Gamesmkt\Fishpond\Type;
+use Gamesmkt\Fishpond\TypeInterface;
 
 class Fishpond implements FishpondInterface
 {
     use ConfigAwareTrait;
 
-    /**
+    /**å
      * @var AdapterInterface
      */
     protected $adapter;
@@ -50,7 +55,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function prepareCreatePlayer(Player $player, array $config = [])
+    public function prepareCreatePlayer(PlayerInterface $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -66,7 +71,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function createPlayer(Player $player, array $config = [])
+    public function createPlayer(PlayerInterface $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -80,7 +85,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getLoginUrl(Player $player, Game $game, array $config = [])
+    public function getLoginUrl(PlayerInterface $player, GameInterface $game, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -94,7 +99,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function logout(Player $player, Game $game = null, array $config = [])
+    public function logout(PlayerInterface $player, GameInterface $game = null, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -108,7 +113,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getBalance(Player $player, array $config = [])
+    public function getBalance(PlayerInterface $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -122,7 +127,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function prepareTransfer(Transaction $transaction, array $config = [])
+    public function prepareTransfer(TransactionInterface $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -136,7 +141,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function transfer(Transaction $transaction, array $config = [])
+    public function transfer(TransactionInterface $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -150,7 +155,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getTransferRecord(Transaction $transaction, array $config = [])
+    public function getTransferRecord(TransactionInterface $transaction, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -164,7 +169,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function fetchRecords(Type $type, DateTime $start, DateTime $end, array $config = [])
+    public function fetchRecords(TypeInterface $type, DateTime $start, DateTime $end, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -216,7 +221,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function fetchRecordsByDirectWithMark(TypeInterface $type, array $listCompleteRecord, array $config = [])
+    public function fetchRecordsByDirectWithMark(TypeInterface $type, array $listCompleteRecord = [], array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -242,7 +247,7 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
-    public function getGaemResultlUrl(Record $record, Game $game, array $config = [])
+    public function getGaemResultlUrl(RecordInterface $record, GameInterface $game, array $config = [])
     {
         $config = $this->prepareConfig($config);
 
@@ -262,7 +267,7 @@ class Fishpond implements FishpondInterface
      *
      * @return void
      */
-    public function assertDonate(Type $type)
+    public function assertDonate(TypeInterface $type)
     {
         if ((int) $type === Type::TYPE_DONATE && !$this->getAdapter() instanceof Donatable) {
             throw new NotSupportingException(
