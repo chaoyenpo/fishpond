@@ -54,24 +54,24 @@ class BetRecordParser
         $record->gameId = (string) $this->format->getGameId($sourceRecord);
 
         // 注單標識符，每筆注單只會有一個。
-        $record->betId = (string) data_get($sourceRecord, $this->format->parameter['betIdName']);
+        $record->betId = (string) data_get($sourceRecord, $this->format->parameter[BetRecordFormatInterface::NAME_BET_ID]);
 
         // 局號標識符，一局多單的關聯號，每局比賽會有一個，例如百家樂開局會有個局號。
-        $record->roundId = isset($this->format->parameter['roundIdName'])
-        ? (string) data_get($sourceRecord, $this->format->parameter['roundIdName'])
+        $record->roundId = isset($this->format->parameter[BetRecordFormatInterface::NAME_ROUND_ID])
+        ? (string) data_get($sourceRecord, $this->format->parameter[BetRecordFormatInterface::NAME_ROUND_ID])
         : '';
 
         // 注單狀態，紀錄這個注單的狀態，未結算或是已結算等等的。
         $record->status = $this->format->getStatusCode($sourceRecord);
         // 注單建立時間。
         $record->createAt = $this->format->formatDateTime(
-            data_get($sourceRecord, $this->format->parameter['createAtName'])
+            data_get($sourceRecord, $this->format->parameter[BetRecordFormatInterface::NAME_CREATED_AT])
         );
         // 注單更新時間，電子機率類的通常會一樣。
         $record->updateAt = $record->order_status === BetRecordInterface::STATUS_ACTIVE
         ? ''
         : $this->format->formatDateTime(
-            data_get($sourceRecord, $this->format->parameter['updateAtName'])
+            data_get($sourceRecord, $this->format->parameter[BetRecordFormatInterface::NAME_UPDATED_AT])
         );
 
         // 投注金額
