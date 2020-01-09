@@ -7,7 +7,7 @@ use Gamesmkt\Fishpond\Config;
 /**
  * 實現這個介面的 Adapter 讓 Fishpond 知道 Bet Record 可以被正規化。
  */
-interface CanNormalizeBetRecor
+interface CanNormalizeBetRecords
 {
     /**
      * 正規化下注紀錄。
@@ -19,5 +19,5 @@ interface CanNormalizeBetRecor
      *
      * @return array
      */
-    public function normalizeBetRecord(array $records, Config $config);
+    public function normalizeBetRecords(array $records, Config $config);
 }

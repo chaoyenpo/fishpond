@@ -17,6 +17,8 @@ interface CanFetchRecordsByDirectWithMark
      * @param array $listCompleteRecord
      * @param \Gamesmkt\Fishpond\Config $config
      *
+     * @throws \InvalidArgumentException
+     *
      * @return array|false false on failure, meta data on success
      */
     public function fetchRecordsByDirectWithMark(TypeInterface $type, array $listCompleteRecord, Config $config);
