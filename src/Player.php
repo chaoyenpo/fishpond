@@ -17,6 +17,11 @@ class Player implements PlayerInterface
         $this->name = $name;
     }
 
+    public function __set($name, $value)
+    {
+        $this->{$name} = $value;
+    }
+
     public function getName()
     {
         return $this->name;
