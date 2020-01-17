@@ -36,7 +36,8 @@ class Transaction implements TransactionInterface
         string $id,
         string $amount,
         int $status
-    ) {
+    )
+    {
         $this->assertMethod($method);
         $this->assertStatus($status);
 
@@ -55,6 +56,11 @@ class Transaction implements TransactionInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->{$name} = $value;
     }
 
     public function getId()
