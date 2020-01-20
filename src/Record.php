@@ -26,4 +26,9 @@ class Record implements RecordInterface
     {
         return $this->id;
     }
+
+    public function __set($name, $value)
+    {
+        $this->{$name} = $value;
+    }
 }

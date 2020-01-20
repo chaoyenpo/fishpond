@@ -25,7 +25,7 @@ interface TransactionInterface
 
     public function getUser();
 
-    public function getId();
+    public function getCode();
 
     public function getAmount();
 

@@ -7,6 +7,7 @@ use Gamesmkt\Fishpond\AdapterInterface;
 use Gamesmkt\Fishpond\Adapter\AutoCreatePlayer;
 use Gamesmkt\Fishpond\Adapter\CanFetchRecords;
 use Gamesmkt\Fishpond\Adapter\CanFetchRecordsByContext;
+use Gamesmkt\Fishpond\Adapter\CanNormalizeBetRecord;
 use Gamesmkt\Fishpond\Config;
 use Gamesmkt\Fishpond\ConfigAwareTrait;
 use Gamesmkt\Fishpond\Exception\NormalizeBetRecordException;
@@ -55,6 +56,20 @@ class Fishpond implements FishpondInterface
     /**
      * @inheritdoc
      */
+    public function getGameList(TypeInterface $type)
+    {
+        $array = $this->getAdapter()->getGameList($type);
+
+        if (!isset($array)) {
+            return false;
+        }
+
+        return $array;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function prepareCreatePlayer(PlayerInterface $player, array $config = [])
     {
         $config = $this->prepareConfig($config);
@@ -63,9 +78,7 @@ class Fishpond implements FishpondInterface
             return false;
         }
 
-        $player->name = $object['player']->name;
-
-        return $player;
+        return $object['player'];
     }
 
     /**
@@ -135,7 +148,7 @@ class Fishpond implements FishpondInterface
             return false;
         }
 
-        return $object;
+        return $object['transaction'];
     }
 
     /**
@@ -149,7 +162,7 @@ class Fishpond implements FishpondInterface
             return false;
         }
 
-        return $object;
+        return $object['transaction'];
     }
 
     /**
@@ -163,7 +176,7 @@ class Fishpond implements FishpondInterface
             return false;
         }
 
-        return $object;
+        return $object['transaction'];
     }
 
     /**
@@ -179,14 +192,16 @@ class Fishpond implements FishpondInterface
             );
         }
 
-        $this->assertDonate();
+        $this->assertDonate($type);
 
-        if (!$array = $this->getAdapter()->fetchRecords($type, $start, $end, $config)) {
+        $array = $this->getAdapter()->fetchRecords($type, $start, $end, $config);
+
+        if ($array === false) {
             return false;
         }
 
-        if ((int) $type === Type::TYPE_BET) {
-            $array = $this->normalizeBetRecord($array, $config);
+        if ((int) $type->getType() === Type::RECORD_BET) {
+            $array = $this->normalizeBetRecords($array, $config);
         }
 
         return $array;
@@ -205,14 +220,14 @@ class Fishpond implements FishpondInterface
             );
         }
 
-        $this->assertDonate();
+        $this->assertDonate($type);
 
         if (!$array = $this->getAdapter()->fetchRecordsByContext($type, $context, $config)) {
             return false;
         }
 
-        if ((int) $type === Type::TYPE_BET) {
-            $array = $this->normalizeBetRecord($array, $config);
+        if ((int) $type->getType() === Type::RECORD_BET) {
+            $array = $this->normalizeBetRecords($array, $config);
         }
 
         return $array;
@@ -231,14 +246,14 @@ class Fishpond implements FishpondInterface
             );
         }
 
-        $this->assertDonate();
+        $this->assertDonate($type);
 
         if (!$array = $this->getAdapter()->fetchRecordsByDirectWithMark($type, $listCompleteRecord, $config)) {
             return false;
         }
 
-        if ((int) $type === Type::TYPE_BET) {
-            $array = $this->normalizeBetRecord($array, $config);
+        if ((int) $type->getType() === Type::RECORD_BET) {
+            $array = $this->normalizeBetRecords($array, $config);
         }
 
         return $array;
@@ -269,7 +284,7 @@ class Fishpond implements FishpondInterface
      */
     public function assertDonate(TypeInterface $type)
     {
-        if ((int) $type === Type::TYPE_DONATE && !$this->getAdapter() instanceof Donatable) {
+        if ((int) $type->getType() === Type::RECORD_DONATE && !$this->getAdapter() instanceof Donatable) {
             throw new NotSupportingException(
                 get_class($this->getAdapter()) . ' does not support donate.'
             );
@@ -286,13 +301,13 @@ class Fishpond implements FishpondInterface
      *
      * @return array
      */
-    public function normalizeBetRecord(array $records, Config $config)
+    public function normalizeBetRecords(array $records, Config $config)
     {
-        if (!$this->getAdapter() instanceof CanNormalizeBetRecor) {
+        if (!$this->getAdapter() instanceof CanNormalizeBetRecord) {
             return $records;
         }
 
-        if (!$records = $this->getAdapter()->normalizeBetRecord($records, $config)) {
+        if (!$records = $this->getAdapter()->normalizeBetRecords($records, $config)) {
             throw new NormalizeBetRecordException(
                 get_class($this->getAdapter()) . ' could not normalize. Records:' . $records
             );

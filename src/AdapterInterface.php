@@ -7,9 +7,19 @@ use Gamesmkt\Fishpond\GameInterface;
 use Gamesmkt\Fishpond\PlayerInterface;
 use Gamesmkt\Fishpond\RecordInterface;
 use Gamesmkt\Fishpond\TransactionInterface;
+use Gamesmkt\Fishpond\TypeInterface;
 
 interface AdapterInterface
 {
+    /**
+     * 取得遊戲列表詳情
+     *
+     * @param \Gamesmkt\Fishpond\TypeInterface $type
+     *
+     * @return array|false false on failure, meta data on success
+     */
+    public function getGameList(TypeInterface $type);
+
     /**
      * 準備建立玩家。
      *

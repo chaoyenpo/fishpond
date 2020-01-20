@@ -15,7 +15,7 @@ class Transaction implements TransactionInterface
     private $user;
 
     /** @var string */
-    private $id;
+    private $code;
 
     /** @var string */
     private $amount;
@@ -26,14 +26,14 @@ class Transaction implements TransactionInterface
     /**
      * @param int $method Transaction method
      * @param \Gamesmkt\Fishpond\PlayerInterface $user The user
-     * @param string $id Id
+     * @param string $id Code
      * @param string $amount Amount
      * @param string $status Status
      */
     public function __construct(
         int $method,
         PlayerInterface $user,
-        string $id,
+        string $code,
         string $amount,
         int $status
     ) {
@@ -42,7 +42,7 @@ class Transaction implements TransactionInterface
 
         $this->method = $method;
         $this->user = $user;
-        $this->id = $id;
+        $this->code = $code;
         $this->amount = $amount;
         $this->status = $status;
     }
@@ -57,9 +57,9 @@ class Transaction implements TransactionInterface
         return $this->user;
     }
 
-    public function getId()
+    public function getCode()
     {
-        return $this->id;
+        return $this->code;
     }
 
     public function getAmount()
@@ -114,5 +114,10 @@ class Transaction implements TransactionInterface
             default:
                 throw new InvalidArgumentException("Not support [$status] status.");
         }
+    }
+
+    public function __set($name, $value)
+    {
+        $this->{$name} = $value;
     }
 }
