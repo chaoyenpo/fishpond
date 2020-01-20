@@ -12,6 +12,15 @@ use Gamesmkt\Fishpond\TypeInterface;
 interface FishpondInterface
 {
     /**
+     * 取得遊戲列表詳情
+     *
+     * @param \Gamesmkt\Fishpond\TypeInterface $type
+     *
+     * @return \Gamesmkt\Fishpond\GameInterface[]|false The games or false on failure
+     */
+    public function getGameList(TypeInterface $type);
+
+    /**
      * 準備建立玩家。
      *
      * @param \Gamesmkt\Fishpond\PlayerInterface $player The player class
@@ -103,7 +112,7 @@ interface FishpondInterface
      *
      * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
      *
-     * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
+     * @return \Gamesmkt\Fishpond\RecordInterface[]|false The records or false on failure
      */
     public function fetchRecords(TypeInterface $type, DateTime $start, DateTime $end, array $config = []);
 
@@ -116,7 +125,7 @@ interface FishpondInterface
      *
      * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
      *
-     * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
+     * @return \Gamesmkt\Fishpond\RecordInterface[]|false The records or false on failure
      */
     public function fetchRecordsByContext(TypeInterface $type, string $context, array $config = []);
 
@@ -129,7 +138,7 @@ interface FishpondInterface
      *
      * @throws \Gamesmkt\Fishpond\Exception\NormalizeBetRecordException
      *
-     * @return \Gamesmkt\Fishpond\Record[]|false The records or false on failure
+     * @return \Gamesmkt\Fishpond\RecordInterface[]|false The records or false on failure
      */
     public function fetchRecordsByDirectWithMark(TypeInterface $type, array $listCompleteRecord = [], array $config = []);
 

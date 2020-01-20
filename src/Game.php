@@ -7,23 +7,52 @@ use Gamesmkt\Fishpond\GameInterface;
 class Game implements GameInterface
 {
     /** @var string */
-    private $id;
+    private $name;
 
-    /**
-     * @param string $id The game id
-     */
-    public function __construct(string $id)
+    /** @var string */
+    private $code;
+
+    /** @var int */
+    private $typeCode;
+
+    /** @var array */
+    private $translatedName;
+
+    public function __construct(string $name, string $code, int $typeCode, $translatedName = [])
     {
-        $this->id = $id;
+        $this->name = $name;
+        $this->code = $code;
+        $this->typeCode = $typeCode;
+        $this->translatedName = $translatedName;
     }
 
-    public function getId()
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
+    }
+
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    public function getTypeCode()
+    {
+        return $this->typeCode;
+    }
+
+    public function getTranslatedName()
+    {
+        return $this->translatedName;
     }
 
     public function __toString()
     {
-        return $this->id;
+        return $this->name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->{$name} = $value;
     }
 }

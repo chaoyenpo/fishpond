@@ -3,6 +3,7 @@
 namespace Gamesmkt\Fishpond;
 
 use InvalidArgumentException;
+use ReflectionClass;
 
 class Type implements TypeInterface
 {
@@ -25,18 +26,37 @@ class Type implements TypeInterface
         return $this->type;
     }
 
-    private function assertMethod($type)
+    private function assertType($type)
     {
-        if (!is_int($type) || $type <= 0) {
-            throw new InvalidArgumentException('Type must be an integer and more then zero.');
+        if (!is_int($type) || $type < 0) {
+            throw new InvalidArgumentException('Type must be a positive integer.');
         }
 
         switch ($type) {
-            case self::TYPE_BET:
+            case self::RECORD_BET:
                 break;
-            case self::TYPE_DONATE:
+            case self::RECORD_DONATE:
                 break;
-            case self::TYPE_TRANSFER:
+            case self::RECORD_TRANSFER:
+                break;
+
+            case self::GAME_ALL:
+                break;
+            case self::GAME_SPORT:
+                break;
+            case self::GAME_LOTTERY:
+                break;
+            case self::GAME_CHESS_CARD:
+                break;
+            case self::GAME_LIVE_VIDEO:
+                break;
+            case self::GAME_SLOT:
+                break;
+            case self::GAME_FISHING:
+                break;
+            case self::GAME_CELEBRITY:
+                break;
+            case self::GAME_SPECIAL:
                 break;
             default:
                 throw new InvalidArgumentException("Not support [$type] type.");
@@ -46,5 +66,13 @@ class Type implements TypeInterface
     public function __toString()
     {
         return $this->type;
+    }
+
+    public function getErrorMessage()
+    {
+        $class = new ReflectionClass(__CLASS__);
+        $constants = array_flip($class->getConstants());
+
+        return $constants[$this->getType()];
     }
 }

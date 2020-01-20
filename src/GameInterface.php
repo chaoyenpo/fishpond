@@ -4,5 +4,11 @@ namespace Gamesmkt\Fishpond;
 
 interface GameInterface
 {
-    public function getId();
+    public function getName();
+
+    public function getCode();
+
+    public function getTypeCode();
+
+    public function getTranslatedName();
 }
