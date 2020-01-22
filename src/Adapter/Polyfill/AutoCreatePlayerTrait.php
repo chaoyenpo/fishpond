@@ -2,6 +2,9 @@
 
 namespace Gamesmkt\Fishpond\Adapter\Polyfill;
 
+use Gamesmkt\Fishpond\Config;
+use Gamesmkt\Fishpond\PlayerInterface;
+
 trait AutoCreatePlayerTrait
 {
     /**
