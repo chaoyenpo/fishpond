@@ -2,7 +2,10 @@
 
 namespace Gamesmkt\Fishpond\Adapter\Polyfill;
 
+use Gamesmkt\Fishpond\Config;
 use Gamesmkt\Fishpond\Exception\NotSupportingException;
+use Gamesmkt\Fishpond\GameInterface;
+use Gamesmkt\Fishpond\RecordInterface;
 
 trait NotSupportingGetRecordDetailUrlTrait
 {
