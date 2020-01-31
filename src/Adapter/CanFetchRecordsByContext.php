@@ -21,6 +21,10 @@ interface CanFetchRecordsByContext
      * @throws \InvalidArgumentException
      *
      * @return array|false false on failure, meta data on success
+     *
+     * meta data
+     * - context
+     * - records
      */
     public function fetchRecordsByContext(TypeInterface $type, string $context, Config $config);
 }

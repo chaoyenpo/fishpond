@@ -217,9 +217,7 @@ class Fishpond implements FishpondInterface
 
         $this->assertDonate($type);
 
-        $array = $this->getAdapter()->fetchRecordsByContext($type, $context, $config);
-
-        if ($array === false) {
+        if (!$array = $this->getAdapter()->fetchRecordsByContext($type, $context, $config)) {
             return false;
         }
 
